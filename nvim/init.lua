@@ -1,14 +1,5 @@
 -- ========================================
--- Windows / Path 対策 (E65 エラー回避)
--- ========================================
--- shellslash を有効にすると、Vim/Neovim 内部でパスのバックスラッシュが
--- スラッシュに変換され、正規表現でのバックリファレンスエラーを回避できます
-if vim.fn.has('win32') == 1 then
-  vim.opt.shellslash = true
-end
-
--- ========================================
--- Jetpack Setup
+-- Jetpack Setup (shellslash より前に実行する必要あり)
 -- ========================================
 vim.cmd('packadd vim-jetpack')
 local jetpack = require('jetpack')
@@ -32,6 +23,22 @@ jetpack.add('shellRaining/hlchunk.nvim')
 jetpack.add('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 
 jetpack['end']()
+
+-- ========================================
+-- Windows / Path 対策 (E65 エラー回避)
+-- ========================================
+-- shellslash を有効にすると、Vim/Neovim 内部でパスのバックスラッシュが
+-- スラッシュに変換され、正規表現でのバックリファレンスエラーを回避できます
+if vim.fn.has('win32') == 1 then
+  vim.opt.shellslash = true
+
+  -- JetpackSync は shellslash と相性が悪いため、一時的に無効化するラッパー
+  vim.api.nvim_create_user_command('JetpackSyncWin', function()
+    vim.opt.shellslash = false
+    vim.cmd('JetpackSync')
+    vim.opt.shellslash = true
+  end, {})
+end
 
 -- ========================================
 -- options
@@ -128,7 +135,7 @@ wk.register({
   s = { ":e $MYVIMRC<CR>", "Settings" },
   r = { ":source $MYVIMRC<CR>", "Reload settings" },
   t = { ":NvimTreeToggle<CR>", "Toggle file tree" },
-  j = { ":JetpackSync<CR>", "JetpackSync" },
+  j = { ":JetpackSyncWin<CR>", "JetpackSync" },
   w = { ":w<CR>", "Save file" },
   q = { ":q<CR>", "Quit" },
 }, { prefix = "<leader>" })

@@ -34,6 +34,12 @@ Write-Host "Symlinks created:"
 Write-Host "  init.lua -> $sourceInitLua"
 Write-Host "  coc-settings.json -> $sourceCocSettings"
 
+# jetpack-nvim pack
+$jetpackpack = "$nvimDir\pack\jetpack\opt"
+if (-not (Test-Path $jetpackpack)) {
+    git clone https://github.com/tani/vim-jetpack "$env:LOCALAPPDATA\nvim\pack\jetpack\opt\vim-jetpack"
+}
+
 # ------------------- end of NeoVim ----------------------
 
 
