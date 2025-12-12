@@ -36,3 +36,35 @@ Write-Host "  coc-settings.json -> $sourceCocSettings"
 
 # ------------------- end of NeoVim ----------------------
 
+
+# --------------------------------------------------
+#
+#                  PowerShell
+#
+# --------------------------------------------------
+# PowerShell profile directory
+$psProfileDir = Split-Path $PROFILE -Parent
+
+if (-not (Test-Path $psProfileDir)) {
+    New-Item -ItemType Directory -Path $psProfileDir | Out-Null
+}
+
+# path to target profile
+$psProfile = $PROFILE
+
+# source file (your repo)
+$sourcePsProfile = Join-Path $PSScriptRoot "powershell\Microsoft.PowerShell_profile.ps1"
+
+# remove existing profile if it exists (file or symlink)
+if (Test-Path $psProfile) {
+    Remove-Item $psProfile -Force
+}
+
+# create symbolic link
+New-Item -ItemType SymbolicLink -Path $psProfile -Value $sourcePsProfile | Out-Null
+
+Write-Host "Symlink created:"
+Write-Host "  PowerShell Profile -> $sourcePsProfile"
+
+# ------------------- end of PowerShell ----------------------
+
