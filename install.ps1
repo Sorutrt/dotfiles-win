@@ -42,6 +42,17 @@ Write-Host "  coc-settings.json -> $sourceCocSettings"
 #                  PowerShell
 #
 # --------------------------------------------------
+# Check if Oh My Posh is installed, if not install it
+$ohMyPoshInstalled = Get-Command oh-my-posh -ErrorAction SilentlyContinue
+
+if (-not $ohMyPoshInstalled) {
+    Write-Host "Oh My Posh not found. Installing via winget..."
+    winget install JanDeDobbeleer.OhMyPosh --source winget
+    Write-Host "Oh My Posh installed successfully."
+} else {
+    Write-Host "Oh My Posh is already installed."
+}
+
 # PowerShell profile directory
 $psProfileDir = Split-Path $PROFILE -Parent
 
