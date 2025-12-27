@@ -6,13 +6,15 @@ local jetpack = require('jetpack')
 
 jetpack.begin()
 
+jetpack.add("tani/vim-jetpack")
 jetpack.add('dense-analysis/ale')
 jetpack.add('junegunn/fzf.vim')
-jetpack.add('junegunn/fzf', { ['do'] = 'call fzf#install()' })
+jetpack.add('junegunn/fzf', { ['do'] = function() vim.fn['fzf#install']() end })
 jetpack.add('neoclide/coc.nvim', { branch = 'release' })
 jetpack.add('rebelot/kanagawa.nvim')
 jetpack.add('Yggdroot/indentLine')
 jetpack.add('nvim-tree/nvim-web-devicons')
+jetpack.add('echasnovski/mini.icons')
 jetpack.add('romgrk/barbar.nvim')
 jetpack.add('lewis6991/gitsigns.nvim')
 jetpack.add('folke/which-key.nvim')
@@ -131,12 +133,12 @@ vim.keymap.set("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "<C-h>"]]
 
 -- ~~ Which-key ~~
 local wk = require("which-key")
-wk.register({
-  s = { ":e $MYVIMRC<CR>", "Settings" },
-  r = { ":source $MYVIMRC<CR>", "Reload settings" },
-  t = { ":NvimTreeToggle<CR>", "Toggle file tree" },
-  j = { ":JetpackSyncWin<CR>", "JetpackSync" },
-  w = { ":w<CR>", "Save file" },
-  q = { ":q<CR>", "Quit" },
-}, { prefix = "<leader>" })
+wk.add({
+  { "<leader>s", ":e $MYVIMRC<CR>", desc = "Settings" },
+  { "<leader>r", ":source $MYVIMRC<CR>", desc = "Reload settings" },
+  { "<leader>t", ":NvimTreeToggle<CR>", desc = "Toggle file tree" },
+  { "<leader>j", ":JetpackSyncWin<CR>", desc = "JetpackSync" },
+  { "<leader>w", ":w<CR>", desc = "Save file" },
+  { "<leader>q", ":q<CR>", desc = "Quit" },
+})
 
