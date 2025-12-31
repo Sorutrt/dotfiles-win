@@ -6,7 +6,7 @@
 # Aliases
 Set-Alias -Name vim -Value nvim
 Set-Alias -Name vi -Value nvim
-Set-Alias gg lazygit.exe
+Set-Alias lg lazygit.exe
 
 # Functions
 function lsa { Get-ChildItem -Force @args }
